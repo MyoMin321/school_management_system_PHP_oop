@@ -1,0 +1,23 @@
+<div class="card mb-4">
+                    <?php foreach ($posts as $post): ?>
+                    <a href="#!"><img class="card-img-top" src="_actions/post_img/<?= $post->file_name; ?>"
+                            width="350px" height="850px" alt="..." /></a>
+                    <div class="card-body">
+                        <div class="small text-muted">
+                            <?php
+       // date format
+       $date = date_create($post->created_at);
+       echo date_format($date, "F d, Y");
+     ?>
+                            ||&nbsp; &nbsp; <?= time_Ago($post->created_at) ?>
+                        </div>
+                        <h2 class="card-title">
+                            <?= $post->title ?>
+                        </h2>
+                        <p class="card-text">
+                            <?= substr($post->description, 0, 100) ?>
+                        </p>
+                        <a class="btn btn-primary" href="user_post_detail.php?id=<?= $post->id ?>">Read more →</a>
+                    </div>
+                    <?php endforeach; ?>
+                </div>

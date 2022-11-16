@@ -8,6 +8,10 @@ use Libs\Databases\MySQL;
 use Libs\Databases\ProgramTable;
 use Libs\Databases\SubjectTable;
 use Libs\Databases\ClassTable;
+use Libs\Databases\UsersTable;
+
+$id = $_GET['id'];
+
 ?>
 <?php include("includes/head.php"); ?>
 
@@ -31,7 +35,8 @@ use Libs\Databases\ClassTable;
                         <div class="card-header">
                             <i class="fas fa-table me-1"></i>
                             If you are a student, you must fill to complete your information.
-                            <span><a href="../_actions/student" class="btn btn-outline-warning">View Your
+                            <span><a href="./st_detail.php?id<?= $auth -> id; ?>" class="btn btn-outline-warning">View
+                                    Your
                                     Information</a></span>
                             <span><a href="" class="btn btn-outline-primary float-end" data-bs-toggle="modal"
                                     data-bs-target="#exampleModal">Student Info

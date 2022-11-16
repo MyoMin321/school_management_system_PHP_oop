@@ -29,6 +29,7 @@ $data = [
 $table = new ExamResultTable(new MySQL);
 
 $result = $table->InsertExamResult($data);
+
 echo "<pre>";
 print_r($result);
 echo "</pre>";

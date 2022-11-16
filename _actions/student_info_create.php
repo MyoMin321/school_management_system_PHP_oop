@@ -14,8 +14,8 @@ $data = [
  "class_id" => $_POST['class_id'] ?? 'Unknown',
  "attach_file" => $_POST['attach_file'] ?? 'Unknown',
  "user_id" => $_POST['user_id'] ?? 'Unknown',
-
 ];
+
 // echo "<pre>";
 // print_r($data);
 // echo "</pre>";
@@ -23,18 +23,28 @@ $data = [
 
 // attach pdf && doc file upload
 $table = new StudentTable(new MySQL());
+$result = $table->StudentInfoCreateWithFile($data);
+
+
 $name = $_FILES['attach_file']['name'];
 $error = $_FILES['attach_file']['error'];
 $tmp = $_FILES['attach_file']['tmp_name'];
 $type = $_FILES['attach_file']['type'];
 
-// echo $name;
-// echo "<br>";
-// echo $error;
-// echo "<br>";
-// echo $tmp;
-// echo "<br>";
-// echo $type;
+
+echo "<pre>";
+print_r($result);
+echo "</pre>";
+// die();
+
+echo $name;
+echo "<br>";
+echo $error;
+echo "<br>";
+echo $tmp;
+echo "<br>";
+echo $type;
+die();
 
 if ($error) {
 	
@@ -49,7 +59,6 @@ if ($type === "application/pdf" or $type === "application/doc") {
         $data['attach_file'] = $name;
         $result = $table->StudentInfoCreateWithFile($data);
         header("Location: ../admin/student_profile.php?success=student_info_create");
-
     } else {
         header("Location: ../admin/student_profile.php?error=type");
     }

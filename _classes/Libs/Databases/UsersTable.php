@@ -14,7 +14,7 @@ class UsersTable
  // user get all data 
  public function UserAllData()
  {
-    $statement = $this->db->prepare("SELECT users.*, roles.name As role, roles.value FROM users LEFT JOIN roles ON users.role_id =roles.id");
+    $statement = $this->db->prepare("SELECT users.*, roles.name As role, roles.value FROM users LEFT JOIN roles ON users.role_id = roles.id");
     $statement->execute();
     $rows = $statement->fetchAll();
     return $rows;

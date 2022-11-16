@@ -1,12 +1,13 @@
-<?php
+<?php 
 include("../vendor/autoload.php");
-
 use Libs\Databases\MySQL;
 use Libs\Databases\PostTable;
+use Libs\Databases\CategoryTable;
 
+$categories = new CategoryTable(new MySQL);
+$posts_category = $categories->GetCategoryAllData();
 $table = new PostTable(new MySQL());
 $posts = $table->getAllPosts();
-
 // echo "<pre>";
 // print_r($posts);
 // echo "</pre>";
@@ -16,8 +17,7 @@ include("includes/head.php"); ?>
 
 
 <body class="sb-nav-fixed">
-    <?php //include("includes/top_navbar.php"); 
-    ?>
+    <?php //include("includes/top_navbar.php"); ?>
     <div id="layoutSidenav">
 
         <?php include("includes/sidebar.php"); ?>
@@ -29,20 +29,18 @@ include("includes/head.php"); ?>
                     <ol class="breadcrumb mb-4">
                         <li class="breadcrumb-item active">PostDashboard</li>
                     </ol>
-                    <!---- display --->
-
-                    <?php if (isset($_GET['success']) && $_GET['success'] == true) { ?>
+                    <!-- display session alert -->
+                    <?php if(isset($_GET['success']) && $_GET['success'] == true){ ?>
                     <div class="alert alert-success">
                         <strong>Success!</strong> Post has been updated.
                     </div>
-                    <?php } else if (isset($_GET['error']) && $_GET['error'] == true) { ?>
+                    <?php } else if(isset($_GET['error']) && $_GET['error'] == true){ ?>
                     <div class="alert alert-danger">
                         <strong>Error!</strong> Post has not been updated.
                     </div>
                     <?php } ?>
 
-                    <?php //include("includes/top_card.php"); 
-                    ?>
+
                     <div class="card mb-4">
                         <div class="card-header">
                             <i class="fas fa-table me-1"></i>
@@ -64,22 +62,25 @@ include("includes/head.php"); ?>
                                     </tr>
                                 <tbody>
                                     <?php
-                                    foreach ($posts as $post) :
-                                    ?>
+          foreach ($posts as $post) :
+          ?>
                                     <tr>
                                         <td><?= $post->id ?></td>
                                         <td><?= $post->title ?></td>
                                         <td><?= $post->category_id ?></td>
-                                        <td><?= $post->description ?></td>
+                                        <td><?= substr($post->description,0,50) ?></td>
                                         <td>
                                             <img src="../_actions/post_img/<?= $post->file_name; ?>" width="50px"
                                                 height="50px" alt="">
                                         </td>
                                         <td>
-                                            <a href="post_edit.php?id=<?= $post->id; ?>"
+                                            <a href="post_update.php?id=<?= $post->id; ?>"
                                                 class="btn btn-outline-primary">Edit</a>
+                                            <a href="post_details.php?id=<?= $post->id; ?>"
+                                                class="btn btn-outline-primary">Details</a>
                                             <a href="post_delete.php?id=<?= $post->id; ?>"
                                                 class="btn btn-outline-danger">Delete</a>
+                                        </td>
                                     </tr>
                                     <?php endforeach; ?>
                                 </tbody>
@@ -117,9 +118,8 @@ include("includes/head.php"); ?>
                                                         data-size="7" data-style="btn btn-primary btn-round"
                                                         title="Single Select">
                                                         <option disabled selected>Select Category</option>
-                                                        <?php
-                                                        foreach ($categories as $category) : ?>
-
+                                                        <?php 
+            foreach($posts_category as $category) : ?>
                                                         <option value="<?php echo $category->id; ?>">
                                                             <?php echo $category->category_name; ?></option>
                                                         <?php endforeach; ?>
